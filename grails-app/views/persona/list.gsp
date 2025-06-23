@@ -35,6 +35,7 @@
                 <i class="fa fa-search-plus"></i> Buscar
             </a>
         </div>
+
     </div>
 </div>
 
@@ -79,6 +80,9 @@
             });
         });
     }
+
+
+
     function deletePersona(id) {
         bootbox.confirm("¿Deseas eliminar esta persona?", function (result) {
             if (result) {
@@ -92,11 +96,28 @@
             }
         });
     }
+    function contar() {
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller: 'persona', action: 'contar')}",
+            success: function(data) {
+                $("#contar").text(data);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error al obtener el contador:", error);
+                $("#contar").text("Error");
+            }
+        });
+    }
 
-    $(function () {
-        $(".btnCrear").click(() => createEditPersona());
-        $("#btnBuscar").click(); // Ejecuta búsqueda inicial
-    });
+    $('#criterio').keypress(function (e) {
+        var keycode =(e.keyCode ? e.keyCode : e.which);
+        if(keycode=='13'){
+
+            $("#btnBuscar").click();
+            return false;
+        }
+    })
 
     $("#btnBuscar").click(function () {
         const criterio = $("#criterio").val();

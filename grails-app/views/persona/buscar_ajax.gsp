@@ -1,3 +1,6 @@
+<div style="position: absolute; right: 240px; top: 140px;">
+    Número de registros:${contador}
+</div>
 <table class="table table-striped table-bordered">
     <tbody>
     <g:each in="${personas}" var="persona">

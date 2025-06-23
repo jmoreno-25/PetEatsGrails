@@ -1,5 +1,16 @@
 package peteatsweb
+
+import groovy.sql.Sql
+
+
 class PersonaController {
+
+    def dataSource
+    def conectaDb() {
+        Sql sql = new Sql(dataSource)
+        return sql
+    }
+
 
     def list() {
         def personas = Persona.list([sort: 'id'])
@@ -40,8 +51,19 @@ class PersonaController {
     }
 
     def buscar_ajax(){
-        def personas = Persona.findAllByNombreIlike('%'+params.criterio+'%')
-        [personas:personas]
+        //def personas = Persona.findAllByNombreIlike('%'+params.criterio+'%')
+        //[personas:personas, contador: personas.size()]
+        def cr = '%' + params.criterio + '%'
+        def cn= conectaDb()
+        def sql = "select prsn__id from prsn where prsnnmbr ilike '${cr}' or prsnapll ilike '${cr}'"
+        def personas = []
+        cn.eachRow(sql.toString()){ row->
+            personas.add(Persona.get(row.id))
+        }
+        println "personas:$personas"
+        [personas:personas,contador:personas.size()]
+
+
     }
 
     def show_ajax(){
@@ -55,5 +77,13 @@ class PersonaController {
         persona.delete(flush: true)
         println "borrado ${params.id} $persona"
         render "ok"
+    }
+
+    def contar(){
+        def cn= conectaDb()
+        println "Conectado a la base de datos"
+        def sql = "select count(*) cnta from prsn"
+        def cuenta = cn.rows(sql.toString())[0].cnta
+        render cuenta
     }
 }
