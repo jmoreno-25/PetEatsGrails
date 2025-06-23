@@ -53,17 +53,6 @@
     </div>
 </g:if>
 
-<g:if test="${producto?.prdEstado}">
-    <div class="row mb-2">
-        <div class="col-md-3 show-label">
-            Estado
-        </div>
-        <div class="col-md-9">
-            ${producto?.prdEstado}
-        </div>
-    </div>
-</g:if>
-
 <g:if test="${producto?.categoria}">
     <div class="row mb-2">
         <div class="col-md-3 show-label">
@@ -78,10 +67,30 @@
 <g:if test="${producto?.tipoAnimal}">
     <div class="row mb-2">
         <div class="col-md-3 show-label">
-            Tipo de Animal
+            Animal
         </div>
         <div class="col-md-9">
             ${producto?.tipoAnimal?.animalDes}
+        </div>
+    </div>
+</g:if>
+<g:if test="${producto?.marca}">
+   <div class="row mb-2">
+       <div class="col-md-3 show label">
+           Marca
+       </div>
+       <div class ="col-md-9">
+           ${producto?.marca.marcaDes}
+       </div>
+   </div>
+</g:if>
+<g:if test="${producto?.prdEstado}">
+    <div class="row mb-2">
+        <div class="col-md-3 show-label">
+            Estado
+        </div>
+        <div class="col-md-9">
+            ${producto?.prdEstado}
         </div>
     </div>
 </g:if>

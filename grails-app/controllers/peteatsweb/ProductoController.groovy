@@ -7,26 +7,33 @@ class ProductoController {
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def list() {
-
-        def productos = Producto.findAllByPrdEstado("ACT", [sort: 'prdNombre'])  // Lista de productos activos
-        def categorias = Categoria.list(sort: "catDes", order: "asc")
-        def tiposAnimales = TipoAnimal.list(sort: "animalDes", order: "asc")
-        def marcas = Marca.list(sort:"marcaDes", order:"asc")
-
-        return [productos: productos, categorias: categorias, tiposAnimales: tiposAnimales, marcas:marcas]
+        def productos = Producto.list([sort: 'id'])
+        return [productos: productos]
     }
 
     def form_ajax() {
         def producto = params.id ? Producto.get(params.id) : new Producto()
-
         def categorias = Categoria.list(sort: "catDes", order: "asc")
         def tiposAnimales = TipoAnimal.list(sort: "animalDes", order: "asc")
+        def marcas = Marca.list(sort:"marcaDes", order:"asc")
 
         return [
                 producto: producto,
                 categorias: categorias,
-                tiposAnimales: tiposAnimales
+                tiposAnimales: tiposAnimales,
+                marcas: marcas
         ]
+    }
+
+    def buscar_ajax() {
+        try {
+            def criterio = params.criterio ?: ''
+            def productos = Producto.findAllByPrdNombreIlike('%' + criterio + '%')
+            render(view: 'buscar_ajax', model: [productos: productos])
+        } catch (Exception e) {
+            log.error("Error en buscar_ajax: ", e)
+            render "Error: ${e.message}"
+        }
     }
 
     def save_ajax() {

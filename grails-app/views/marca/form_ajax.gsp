@@ -1,10 +1,10 @@
 <div class="modal-contenido">
-    <g:form name="frmCategoria" action="save_ajax" method="POST">
-        <g:hiddenField name="id" value="${categoria?.id}"/>
+    <g:form name="frmMarca" action="save_ajax" method="POST">
+        <g:hiddenField name="id" value="${marca?.id}"/>
 
         <div class="form-group">
-            <label for="catDes">Descripción</label>
-            <g:textField name="catDes" value="${categoria?.catDes}" class="form-control" required="true"/>
+            <label for="marcaDes" >Descripción</label>
+            <g:textField name="catDes" value="${marca?.marcaDes}" class="form-control" required="true"/>
         </div>
     </g:form>
 
@@ -15,7 +15,7 @@
 </div>
 
 <script>
-    $(document).on('click', '#grabar', function () {
+    $("#grabar").click(function () {
         const descripcion = $("#catDes").val();
         if (!descripcion || descripcion.trim() === "") {
             bootbox.alert("Debe ingresar la descripción.");
@@ -24,7 +24,7 @@
 
         $.ajax({
             type: "POST",
-            url: "${createLink(controller: 'categoria', action: 'save_ajax')}",
+            url: "${createLink(controller: 'marca', action: 'save_ajax')}",
             data: $("#frmCategoria").serialize(),
             success: function (msg) {
                 if (msg === 'ok') {

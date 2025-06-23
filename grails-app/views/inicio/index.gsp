@@ -20,6 +20,9 @@
             <div class="col-md-4">
                 <a href="${createLink(controller:'tipoAnimal',action: 'list')}" class="btn btn-warning w-100 p-4 fs-5">🐾 Tipos de Animal</a>
             </div>
+            <div class="col-md-4">
+                <a href="${createLink(controller:'marca',action: 'list')}" class="btn btn-warning w-100 p-4 fs-5">🐾 Marca</a>
+            </div>
         </div>
     </div>
     <div class="text-center mb-4">

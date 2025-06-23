@@ -69,6 +69,17 @@
                 </div>
             </span>
         </div>
+        <div class ="form-group col-md-12">
+            <span class ="row">
+                <label for="marca.id" class="col-md-2 control-label">
+                    Marca
+                </label>
+                <div class="col-md-9">
+                    <g:select name="marca.id" from="${marcas}" optionKey="id" optionValue="marcaDes"
+                              class="form-control input-sm" value="${producto?.marca?.id}"></g:select>
+                </div>
+            </span>
+        </div>
 
         <div class="form-group col-md-12">
             <span class="row">
@@ -90,12 +101,19 @@
 </div>
 
 <script type="text/javascript">
-    $(".form-control").keydown(function (ev) {
-        if (ev.keyCode === 13) {
-            $("#grabar").click();
-            return false;
-        }
-        return true;
+    $(document).on('click', '#grabar', function () {
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller: 'producto', action: 'save_ajax')}",
+            data: $("#frmProducto").serialize(),
+            success: function (msg) {
+                if (msg === 'ok') {
+                    location.reload();
+                } else {
+                    bootbox.alert("Error al guardar: " + msg);
+                }
+            }
+        });
     });
 
     $("#grabar").click(function () {

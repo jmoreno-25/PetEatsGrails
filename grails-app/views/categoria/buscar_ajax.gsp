@@ -19,3 +19,19 @@
     </g:each>
     </tbody>
 </table>
+
+<script>
+
+    $(function () {
+        $(".btnCrear").click(() => createEditCategoria());
+        $(".btn-edit").click(function () {
+            createEditCategoria($(this).data("id"));
+        });
+        $(".btn-show").click(function () {
+            showCategoria($(this).data("id"));
+        });
+        $(".btn-delete").click(function () {
+            deleteCategoria($(this).data("id"));
+        });
+    });
+</script>

@@ -37,6 +37,9 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <g:link controller="persona" action="list" class="nav-link">Personas</g:link>
+                </li>
+                <li class="nav-item">
                     <g:link controller="producto" action="list" class="nav-link">Productos</g:link>
                 </li>
                 <li class="nav-item">
@@ -44,6 +47,15 @@
                 </li>
                 <li class="nav-item">
                     <g:link controller="tipoAnimal" action="list" class="nav-link">Tipos de Animal</g:link>
+                </li>
+                <li class="nav-item">
+                    <g:link controller="marca" action="list" class="nav-link">Marca</g:link>
+                </li>
+                <li class="nav-item">
+                    <g:link controller="factura" action="list" class="nav-link">Factura</g:link>
+                </li>
+                <li class="nav-item">
+                    <g:link controller="pedido" action="list" class="nav-link">Pedido</g:link>
                 </li>
             </ul>
         </div>

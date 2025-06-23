@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <title>Categorías</title>
+    <title>Marcas</title>
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 
     <div class="btn-group">
         <a href="#" class="btn btn-primary btnCrear">
-            <i class="fa fa-plus"></i> Nueva Categoría
+            <i class="fa fa-plus"></i> Nueva Marca
         </a>
     </div>
 </div>
@@ -42,19 +42,45 @@
     </thead>
 </table>
 <div id="tabla_ajax">
+    Hola Mundo
 </div>
 
 
-
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <g:each in="${marcas}" var="marca">
+        <tr data-id="${marca.id}">
+            <td>${marca.id}</td>
+            <td>${marca.marcaDes}</td>
+            <td>
+                <a href="#" class="btn btn-sm btn-warning btn-edit" data-id="${marca.id}" title="Editar">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="${marca.id}" title="Eliminar">
+                    <i class="fa fa-trash"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-info btn-show" data-id="${marca.id}" title="Ver Detalles">
+                    <i class="fa fa-eye"></i>
+                </a>
+            </td>
+        </tr>
+    </g:each>
+    </tbody>
+</table>
 
 <script>
-    function createEditCategoria(id) {
-        console.log("Abriendo modal con ID:", id); // ✅ Verifica si aparece dos veces en consola
-
-        const url = "${createLink(controller: 'categoria', action: 'form_ajax')}";
+    function createEditMarca(id) {
+        const url = "${createLink(controller: 'marca', action: 'form_ajax')}";
         $.post(url, {id: id}, function (data) {
             const modal = bootbox.dialog({
-                title: id ? "Editar Categoría" : "Nueva Categoría",
+                title: id ? "Editar Marca" : "Nueva Marca",
                 message: data,
                 size: 'medium'
             });
@@ -62,11 +88,11 @@
     }
 
 
-    function showCategoria(id) {
-        const url = "${createLink(controller: 'categoria', action: 'show_ajax')}";
+    function showMarca(id) {
+        const url = "${createLink(controller: 'marca', action: 'show_ajax')}";
         $.post(url, {id: id}, function (data) {
             bootbox.dialog({
-                title: "Detalle de Categoría",
+                title: "Detalle de Marca",
                 message: data,
                 buttons: {
                     ok: {
@@ -78,10 +104,10 @@
         });
     }
 
-    function deleteCategoria(id) {
-        bootbox.confirm("¿Seguro que deseas eliminar esta categoría?", function (result) {
+    function deleteMarca(id) {
+        bootbox.confirm("¿Seguro que deseas eliminar esta marca?", function (result) {
             if (result) {
-                $.post("${createLink(controller: 'categoria', action: 'delete_ajax')}", {id: id}, function (msg) {
+                $.post("${createLink(controller: 'marca', action: 'delete_ajax')}", {id: id}, function (msg) {
                     if (msg === 'ok') {
                         location.reload();
                     } else {
@@ -91,17 +117,13 @@
             }
         });
     }
-    $(document).ready(function () {
-        $("#criterio").html("maria");
-        $("#btnBuscar").click();
 
-    })
     $("#btnBuscar").click(function () {
         var criterio =$("#criterio").val();
         console.log('valor',criterio);
         $.ajax({
             type:"POST",
-            url:"${createLink(controller: 'categoria',action:'buscar_ajax')}",
+            url:"${createLink(controller: 'marca',action:'buscar_ajax')}",
             data:{criterio:criterio},
             success: function (msg) {
                 console.log(msg)
@@ -111,7 +133,18 @@
         })
     })
 
-
+    $(function () {
+        $(".btnCrear").click(() => createEditMarca());
+        $(".btn-edit").click(function () {
+            createEditMarca($(this).data("id"));
+        });
+        $(".btn-show").click(function () {
+            showMarca($(this).data("id"));
+        });
+        $(".btn-delete").click(function () {
+            deleteMarca($(this).data("id"));
+        });
+    });
 </script>
 
 </body>
