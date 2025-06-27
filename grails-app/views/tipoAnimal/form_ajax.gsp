@@ -1,3 +1,4 @@
+
 <div class="modal-contenido">
     <g:form name="frmTipoAnimal" action="save_ajax" method="POST">
         <g:hiddenField name="id" value="${tipoAnimal?.id}"/>

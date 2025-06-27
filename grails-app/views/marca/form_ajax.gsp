@@ -4,7 +4,7 @@
 
         <div class="form-group">
             <label for="marcaDes" >Descripción</label>
-            <g:textField name="catDes" value="${marca?.marcaDes}" class="form-control" required="true"/>
+            <g:textField name="marcaDes" value="${marca?.marcaDes}" class="form-control" required="true"/>
         </div>
     </g:form>
 
@@ -16,7 +16,7 @@
 
 <script>
     $("#grabar").click(function () {
-        const descripcion = $("#catDes").val();
+        const descripcion = $("#marcaDes").val();
         if (!descripcion || descripcion.trim() === "") {
             bootbox.alert("Debe ingresar la descripción.");
             return;
@@ -25,7 +25,7 @@
         $.ajax({
             type: "POST",
             url: "${createLink(controller: 'marca', action: 'save_ajax')}",
-            data: $("#frmCategoria").serialize(),
+            data: $("#frmMarca").serialize(),
             success: function (msg) {
                 if (msg === 'ok') {
                     location.reload();

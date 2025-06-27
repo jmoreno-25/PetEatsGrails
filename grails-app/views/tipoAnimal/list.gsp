@@ -19,38 +19,35 @@
         </a>
     </div>
 </div>
+<div>
+    <div class="col-md-12">
+        <div class="col-md-2"></div>
+        <div class="col-md-1">Buscar por:</div>
+        <div class="col-md-2">
+            <input type="text" placeholder="Criterio" id="criterio" style="width: 120px">
+        </div>
+        <div class="btn-group col-md-3">
+            <a href="#" class="btn-primary" id="btnBuscar">
+                <i class="fa fa-search-plus"></i> Buscar
+            </a>
+        </div>
+
+    </div>
+</div>
 
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Descripción</th>
-        <th>Acciones</th>
+        <th style="width:5%; text-align:center;">ID</th>
+        <th style="width:20%;">Descripción</th>
+        <th style="width:10%; text-align:center;">Acciones</th>
     </tr>
     </thead>
-    <tbody>
-    <g:each in="${tiposAnimales}" var="animal">
-        <tr data-id="${animal.id}">
-            <td>${animal.id}</td>
-            <td>${animal.animalDes}</td>
-            <td>
-                <a href="#" class="btn btn-sm btn-warning btn-edit" data-id="${animal.id}" title="Editar">
-                    <i class="fa fa-edit"></i>
-                </a>
-                <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="${animal.id}" title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-                <a href="#" class="btn btn-sm btn-info btn-show" data-id="${animal.id}" title="Ver Detalles">
-                    <i class="fa fa-eye"></i>
-                </a>
-            </td>
-        </tr>
-    </g:each>
-    </tbody>
 </table>
+<div id="tabla_ajax"></div>
 
 <script>
-    function createEditTipoAnimal(id) {
+    function createEditAnimal(id) {
         const url = "${createLink(controller: 'tipoAnimal', action: 'form_ajax')}";
         $.post(url, {id: id}, function (data) {
             bootbox.dialog({
@@ -61,7 +58,7 @@
         });
     }
 
-    function showTipoAnimal(id) {
+    function showAnimal(id) {
         const url = "${createLink(controller: 'tipoAnimal', action: 'show_ajax')}";
         $.post(url, {id: id}, function (data) {
             bootbox.dialog({
@@ -77,7 +74,7 @@
         });
     }
 
-    function deleteTipoAnimal(id) {
+    function deleteAnimal(id) {
         bootbox.confirm("¿Seguro que deseas eliminar este tipo de animal?", function (result) {
             if (result) {
                 $.post("${createLink(controller: 'tipoAnimal', action: 'delete_ajax')}", {id: id}, function (msg) {
@@ -90,17 +87,44 @@
             }
         });
     }
+    function contar() {
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller: 'persona', action: 'contar')}",
+            success: function(data) {
+                $("#contar").text(data);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error al obtener el contador:", error);
+                $("#contar").text("Error");
+            }
+        });
+    }
+    $("#btnBuscar").click(function () {
+        var criterio =$("#criterio").val();
+        console.log('valor',criterio);
+        $.ajax({
+            type:"POST",
+            url:"${createLink(controller: 'tipoAnimal',action:'buscar_ajax')}",
+            data:{criterio:criterio},
+            success: function (msg) {
+                console.log(msg)
+                $("#tabla_ajax").html(msg)
 
-    $(function () {
-        $(".btnCrear").click(() => createEditTipoAnimal());
+            }//successJava
+        })
+    })
+    $(document).ready(function () {
+        $("#btnBuscar").click();
+        $(".btnCrear").click(() => createEditAnimal());
         $(".btn-edit").click(function () {
-            createEditTipoAnimal($(this).data("id"));
+            createEditAnimal($(this).data("id"));
         });
         $(".btn-show").click(function () {
-            showTipoAnimal($(this).data("id"));
+            showAnimal($(this).data("id"));
         });
         $(".btn-delete").click(function () {
-            deleteTipoAnimal($(this).data("id"));
+            deleteAnimal($(this).data("id"));
         });
     });
 </script>

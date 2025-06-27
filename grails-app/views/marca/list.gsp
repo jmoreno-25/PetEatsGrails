@@ -42,38 +42,8 @@
     </thead>
 </table>
 <div id="tabla_ajax">
-    Hola Mundo
 </div>
 
-
-<table class="table table-striped table-bordered">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Descripción</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <g:each in="${marcas}" var="marca">
-        <tr data-id="${marca.id}">
-            <td>${marca.id}</td>
-            <td>${marca.marcaDes}</td>
-            <td>
-                <a href="#" class="btn btn-sm btn-warning btn-edit" data-id="${marca.id}" title="Editar">
-                    <i class="fa fa-edit"></i>
-                </a>
-                <a href="#" class="btn btn-sm btn-danger btn-delete" data-id="${marca.id}" title="Eliminar">
-                    <i class="fa fa-trash"></i>
-                </a>
-                <a href="#" class="btn btn-sm btn-info btn-show" data-id="${marca.id}" title="Ver Detalles">
-                    <i class="fa fa-eye"></i>
-                </a>
-            </td>
-        </tr>
-    </g:each>
-    </tbody>
-</table>
 
 <script>
     function createEditMarca(id) {
@@ -133,7 +103,8 @@
         })
     })
 
-    $(function () {
+    $(document).ready(function () {
+        $("#btnBuscar").click();
         $(".btnCrear").click(() => createEditMarca());
         $(".btn-edit").click(function () {
             createEditMarca($(this).data("id"));

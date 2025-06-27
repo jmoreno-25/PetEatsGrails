@@ -1,9 +1,15 @@
 package peteatsweb
 
+import groovy.sql.Sql
+
 class CategoriaController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
+    def dataSource
+    def conectaDb() {
+        Sql sql = new Sql(dataSource)
+        return sql
+    }
     def list() {
         def categorias = Categoria.list([sort: 'id'])  // Asegúrate de que 'nombre' sea un campo válido
         return [categorias: categorias]
@@ -46,8 +52,16 @@ class CategoriaController {
         return [categoria: categoria]
     }
     def buscar_ajax() {
-        def categorias = Categoria.findAllByCatDesIlike('%'+ params.criterio +'%')
-        [categorias: categorias]
+
+        def cr = '%' + params.criterio + '%'
+        def cn = conectaDb()
+        def sql = "select id from categoria where cat_des ilike '${cr}'"
+        def categorias = []
+        cn.eachRow(sql.toString()) { row ->
+            categorias.add( Categoria.get(row.id) )
+        }
+        println "categorias: $categorias"
+        [categorias: categorias, contador: categorias.size()]
     }
 
     def delete_ajax() {

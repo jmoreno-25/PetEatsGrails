@@ -1,10 +1,17 @@
 package peteatsweb
+
+import groovy.sql.Sql
 import peteatsweb.Producto
 import peteatsweb.Categoria
 import peteatsweb.TipoAnimal
 class ProductoController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    def dataSource
+    def conectaDb() {
+        Sql sql = new Sql(dataSource)
+        return sql
+    }
 
     def list() {
         def productos = Producto.list([sort: 'id'])
@@ -26,14 +33,16 @@ class ProductoController {
     }
 
     def buscar_ajax() {
-        try {
-            def criterio = params.criterio ?: ''
-            def productos = Producto.findAllByPrdNombreIlike('%' + criterio + '%')
-            render(view: 'buscar_ajax', model: [productos: productos])
-        } catch (Exception e) {
-            log.error("Error en buscar_ajax: ", e)
-            render "Error: ${e.message}"
+
+        def cr = '%' + params.criterio + '%'
+        def cn = conectaDb()
+        def sql = "select id from producto where prd_nombre ilike '${cr}'"
+        def productos = []
+        cn.eachRow(sql.toString()) { row ->
+            productos.add( Producto.get(row.id) )
         }
+        println "productos: $productos"
+        [productos: productos, contador: productos.size()]
     }
 
     def save_ajax() {

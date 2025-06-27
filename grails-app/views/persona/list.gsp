@@ -109,7 +109,10 @@
             }
         });
     }
-
+    $(function () {
+        $(".btnCrear").click(() => createEditPersona());
+        $("#btnBuscar").click(); // Ejecuta búsqueda inicial
+    });
     $('#criterio').keypress(function (e) {
         var keycode =(e.keyCode ? e.keyCode : e.which);
         if(keycode=='13'){
@@ -129,6 +132,16 @@
                 $("#tabla_ajax").html(data);
             }
         });
+    });
+
+    $(document).on("click", ".btn-edit", function () {
+        createEditPersona($(this).data("id"));
+    });
+    $(document).on("click", ".btn-delete", function () {
+        deletePersona($(this).data("id"));
+    });
+    $(document).on("click", ".btn-show", function () {
+        showPersona($(this).data("id"));
     });
 </script>
 

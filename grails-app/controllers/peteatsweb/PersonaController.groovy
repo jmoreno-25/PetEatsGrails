@@ -50,20 +50,21 @@ class PersonaController {
         render "ok"
     }
 
-    def buscar_ajax(){
-        //def personas = Persona.findAllByNombreIlike('%'+params.criterio+'%')
-        //[personas:personas, contador: personas.size()]
+    def buscar_ajax() {
+        //println "llega: $params"
+        //def personas = Persona.findAllByNombreIlike('%' + params.criterio + '%')
+        //println "personas: ${personas.size()}"
+        //return [personas: personas, contador: personas.size()]
+        //buscador para nombres y apellidos
         def cr = '%' + params.criterio + '%'
-        def cn= conectaDb()
-        def sql = "select prsn__id from prsn where prsnnmbr ilike '${cr}' or prsnapll ilike '${cr}'"
+        def cn = conectaDb()
+        def sql = "select prsn__id id from prsn where prsnnmbr ilike '${cr}' or prsnapll ilike '${cr}'"
         def personas = []
-        cn.eachRow(sql.toString()){ row->
-            personas.add(Persona.get(row.id))
+        cn.eachRow(sql.toString()) { row ->
+            personas.add( Persona.get(row.id) )
         }
-        println "personas:$personas"
-        [personas:personas,contador:personas.size()]
-
-
+        println "personas: $personas"
+        [personas: personas, contador: personas.size()]
     }
 
     def show_ajax(){

@@ -1,8 +1,14 @@
 package peteatsweb
 
+import groovy.sql.Sql
+
 class MarcaController {
     static allowedMethods = [save:"POST",update:"PUT",delete:"DELETE"]
-
+    def dataSource
+    def conectaDb() {
+        Sql sql = new Sql(dataSource)
+        return sql
+    }
     def list(){
         def marcas = Marca.list([sort:'id'])
         return [marcas:marcas]
@@ -16,13 +22,14 @@ class MarcaController {
     }
     def save_ajax(){
         def marca
+
         if(params.id){
             marca =Marca.get(params.id)
         }else{
             marca = new Marca()
         }
         marca.properties = params
-        if (!categoria.save(flush: true)) {
+        if (!marca.save(flush: true)) {
             println "Error al guardar la marca: ${marca.errors}"
             render "no"
         } else {
@@ -34,9 +41,17 @@ class MarcaController {
         def marca = Marca.get(params.id)
         return [marca:marca]
     }
-    def buscar_ajax(){
-        def marca = Marca.findAllByMarcaDesIlike('%'+params.criterio+'%')
-        return [marca:marca]
+    def buscar_ajax() {
+
+        def cr = '%' + params.criterio + '%'
+        def cn = conectaDb()
+        def sql = "select id from marca where marca_des ilike '${cr}'"
+        def marcas = []
+        cn.eachRow(sql.toString()) { row ->
+            marcas.add( Marca.get(row.id) )
+        }
+        println "marcas: $marcas"
+        [marcas: marcas, contador: marcas.size()]
     }
     def delete_ajax(){
         def marca = Marca.get(params.id)
