@@ -16,7 +16,7 @@
 
   <nav class="menu">
     <ul>
-      <li><a href="${createLink(uri: '/')}">Inicio</a></li>
+      <li><a href="${createLink(controller:'inicioCli')}">Inicio</a></li>
       <li><a href="${createLink(controller:'productosCli')}">Productos</a></li>
       <li><a href="#">Nosotros</a></li>
       <li><a href="#">Contacto</a></li>
@@ -30,7 +30,7 @@
     <input type="text" id="inputBuscar" placeholder="Buscar productos..." class="form-busqueda" />
 
     <div id="carrito-icono" style="position: relative;">
-      <a href="#" class="icono-carrito">
+      <li><a href="${createLink(controller:'carritoCli')}" class="icono-carrito">
         <i class="bi bi-cart"></i>
       </a>
       <span id="contador-carrito" class="contador-carrito">0</span>

@@ -10,6 +10,7 @@ class UrlMappings {
         }
 
         "/"(controller: 'login', action: 'login')
+        "/inicioCli"(controller: 'inicioCli', action: 'indexCli')
         "500"(view:'/error')
         "404"(view:'/notFound')
     }

@@ -53,15 +53,23 @@ class LoginController {
     }
 
     def savePer() {
-        println ("entra en el sistema" + params)
         def prfl = Perfil.get(params.prfl)
         if (prfl) {
             session.perfil = prfl
-            redirect(controller: 'inicio', action: 'index')
+
+            if (prfl.codigo == 'CLI') {
+                redirect(controller: 'inicioCli', action: 'indexCli')
+            } else if (prfl.codigo == 'ADM') {
+                redirect(controller: 'inicio', action: 'index')
+            } else {
+                // Redirección por defecto si no hay coincidencia
+                redirect(uri: '/')
+            }
         } else {
             redirect(controller: 'login', action: "login")
         }
     }
+
 
 
     def logout() {

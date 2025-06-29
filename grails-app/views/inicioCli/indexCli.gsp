@@ -5,12 +5,12 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <title>PetEats - Inicio</title>
       <link rel="stylesheet" href="${resource(dir: 'public/css', file: 'style.css')}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
       <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     </head>
     <body>
         <g:render template="/layouts/header" />
-        <div id="header-container"></div>
 
         <section class="vista_principal">
           <div class="vista_principal_capa">
@@ -49,26 +49,15 @@
               <img src="${resource(dir: 'public/img', file: 'principal6.jpg')}" alt="Productos">
               <h3>Productos</h3>
               <p class="precio">Alimentos, juguetes, accesorios y más</p>
-              <a href="/cliente/productos" class="boton_carrito">Ver productos</a>
+              <a href="/productosCli/index" class="boton_carrito">Ver productos</a>
             </div>
           </div>
         </section>
 
-        <div id="footer-container"></div>
 
         <asset:javascript src="public/js/Busqueda.js" />
         <asset:javascript src="public/js/carrito.js" />
         <asset:javascript src="public/js/menjar_carrito.js" />
-
-        <script>
-        fetch("/public/components/header.html").then(res => res.text()).then(data => {
-          document.getElementById("header-container").innerHTML = data;
-          iniciarBusqueda();
-        });
-        fetch("/public/components/footer.html").then(res => res.text()).then(data => {
-          document.getElementById("footer-container").innerHTML = data;
-        });
-        </script>
 
         <script>
           function rotarHueso3D() {
@@ -88,6 +77,6 @@
           }
           document.addEventListener("DOMContentLoaded", rotarHueso3D);
         </script>
-
+        <g:render template="/layouts/footer" />
     </body>
 </html>
